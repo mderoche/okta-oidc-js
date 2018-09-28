@@ -15,8 +15,7 @@ This is a monorepo that contains Okta's OpenID Connect JavaScript resources.
   - [Prerequisites](#prerequisites)
     - [Create a SPA](#create-a-spa)
     - [Create a Web App](#create-a-web-app)
-  - [Test an individual package](#test-an-individual-package)
-  - [Test all packages](#test-all-packages)
+  - [Run tests](#run-tests)
 - [Contributing](#contributing)
 
 ## Getting Started
@@ -67,21 +66,24 @@ We've configured Lerna with [independent mode](https://github.com/lerna/lerna/#i
 
 ## Configuration Reference
 
-Each package is configured to look for environment variables based on the application type.
+Each package is configured to look for environment variables based on the application type. In the root of this project, set the following environment variables:
 
 ```bash
-# Navigate into a specific package
-cd packages/${packageName}
-
 # Set the following environment variables
 #
-# ISSUER        - your authorization server
-# CLIENT_ID     - the client ID of your app
-# CLIENT_SECRET - the client secret of your app, required for the oidc-middleware package
-# USERNAME      - username of app user, required for tests
-# PASSWORD      - password of app user, required for tests
-export ISSUER=https://{yourOktaDomain}/oauth2/default
-...
+# ISSUER         - your authorization server
+# SPA_CLIENT_ID  - the client ID of your single-page app, required for most packages
+# WEB_CLIENT_ID  - the client ID of the web app, required for the oidc-middleware package
+# CLIENT_SECRET  - the client secret of your app, required for the oidc-middleware package
+# USERNAME       - username of app user, required for tests
+# PASSWORD       - password of app user, required for tests
+
+[okta-oidc-js]$ export ISSUER=https://{yourOktaDomain}/oauth2/default
+[okta-oidc-js]$ export SPA_CLIENT_ID={SPAClientID}
+[okta-oidc-js]$ export WEB_CLIENT_ID={webAppClientID}
+[okta-oidc-js]$ export CLIENT_SECRET={webAppClientSecret}
+[okta-oidc-js]$ export USERNAME={username}
+[okta-oidc-js]$ export PASSWORD={password}
 ```
 
 ## Testing
@@ -111,31 +113,19 @@ Since the workspace contains libraries for Single-Page and Web Applications, you
 5. Users > Add Person
 6. Create and activate user
 
-### Test an individual package
+### Run Tests
+
+Tests can be run against the project workspace or inside of each package.
 
 ```bash
-# Navigate into a specific package
+# In the root of this project
+[okta-oidc-js]$ yarn test
+
+# Alternatively, navigate into a specific package to run tests
 cd packages/${packageName}
 
 # Run the test suite
 yarn test
-```
-
-### Test all packages
-
-Define the following environment variables at the project root and run the tests:
-
-```bash
-# Perform exports at the root of the repository
-[okta-oidc-js]$ export ISSUER=https://{yourOktaDomain}/oauth2/default
-[okta-oidc-js]$ export SPA_CLIENT_ID={SPAClientID}
-[okta-oidc-js]$ export WEB_CLIENT_ID={webAppClientID}
-[okta-oidc-js]$ export CLIENT_SECRET={webAppClientSecret}
-[okta-oidc-js]$ export USERNAME={username}
-[okta-oidc-js]$ export PASSWORD={password}
-
-# Run all tests
-[okta-oidc-js]$ yarn test
 ```
 
 ## Contributing

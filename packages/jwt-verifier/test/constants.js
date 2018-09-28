@@ -10,15 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const PORT = process.env.PORT || 8080;
-const BASE_URI = process.env.BASE_URI || `http://localhost:${PORT}`;
+const Config = require('../../../.oidc.config.js');
 
-module.exports = {
-  REDIRECT_URI: `${BASE_URI}/implicit/callback`,
-  ISSUER: process.env.ISSUER,
-  CLIENT_ID: process.env.SPA_CLIENT_ID || process.env.CLIENT_ID,
-  USERNAME: process.env.USERNAME,
-  PASSWORD: process.env.PASSWORD,
-  PORT,
-  BASE_URI
-}
+module.exports = Config({ port: 8080 }).spaConstants;
